@@ -25,20 +25,25 @@
           <el-container style="height: 100%; border: 1px solid #eee">
             <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
               <el-menu :default-openeds="defaultOpeners">
+                <template>
                 <router-link to="/data">
                   <el-menu-item index="1" class="four-side-router-title">
                     首页
                   </el-menu-item>
                 </router-link>
+                </template>
                 <el-submenu v-for="(item, index) in menuItems" :key="index" :index="item.id" class="four-side-router-title">
                   <template slot="title">
                     <i :class=item.icon></i>{{item.name}}
                   </template>
-                    <el-menu-item v-for="(childItem, childIndex) in item.child" :key="childIndex" :index="childItem.id">
-                      <router-link :to="childItem.path">
-                      {{childItem.name}}
-                      </router-link>
-                    </el-menu-item>
+                  <template v-for="(childItem, childIndex) in item.child" :index="childItem.id">
+                    <router-link :to="childItem.path">
+                      <el-menu-item>
+                          {{childItem.name}}
+                      </el-menu-item>
+                    </router-link>
+                  </template>
+
                 </el-submenu>
               </el-menu>
             </el-aside>

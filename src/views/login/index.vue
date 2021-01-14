@@ -38,6 +38,13 @@
           进入
         </el-button>
       </div>
+      <div class="jump-footer">
+        <router-link to='/register' class="clear-float">
+          <el-button type="text">
+            <i class="el-icon-mouse" style="font-size:15px;padding-right: 10px"></i>点击注册
+          </el-button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -74,8 +81,7 @@ export default {
 
           httpRequestServer('login',  {
             username: this.loginForm.username,
-            password: this.loginForm.password
-            // password: md5(this.loginForm.password + "erp")
+            password: md5(this.loginForm.password + "erp123")
           }).then(res => {
             if (res.code === 200) {
               this.$message.success('登录成功')
@@ -95,6 +101,9 @@ export default {
           return false
         }
       })
+    },
+    toRegister() {
+      this.$router.push('/register')
     }
   }
 }
@@ -154,10 +163,19 @@ export default {
         border-color: #AFBEC9;
       }
     }
+    .jump-footer {
+      float: right;
+      width: 100px;
+      height: 40px;
+      padding: 20px;
+    }
+
+
   }
 }
 
 ::v-deep .el-form-item__content {
   margin: 0 !important;
 }
+
 </style>

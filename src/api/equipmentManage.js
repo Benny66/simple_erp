@@ -5,6 +5,10 @@ const requestObj = {
     url: '/v1/login',
     method: 'post'
   },
+  register: {
+    url: '/v1/register',
+    method: 'post'
+  },
   logout: {
     url: '/v1/user/logout',
     method: 'post'

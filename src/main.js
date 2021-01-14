@@ -7,6 +7,7 @@ Vue.config.productionTip = false
 
 import api from "./api/interface"
 import './regex/regex.function.js'
+import {Notification} from 'element-ui'
 
 Vue.prototype.$host = api.host
 Vue.prototype.$imagesHost = api.imagesHostUrl
@@ -15,9 +16,19 @@ function isRefreshToken() {
   let time = Number.parseInt(localStorage.getItem('tokenExpireMonitor'))
   return time < 1 || time <= (new Date().getTime())
 }
+
+const message = msg => {
+  Notification({
+    title: '提示信息',
+    message: msg,
+    type: 'error',
+    duration: 3000
+  })
+}
+
 router.beforeEach((to, from, next) => {
   const userToken = localStorage.getItem('userToken')
-  if (to.path === '/login') {
+  if (to.path === '/login' || to.path === '/register') {
     if (userToken) {
       next('/data')
     } else {
