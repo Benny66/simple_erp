@@ -2,7 +2,7 @@
   <div id="Data">
     <div class="title-wrap">
       <div class="title-icon">
-        <img src="../../assets/logo.png">
+        <img src="../../assets/liebiao.png">
       </div>
       <div class="title-wrap-project">
         <el-input
@@ -24,23 +24,22 @@
           </el-option>
         </el-select>
         <el-button type="info"
-                   round
                    class="four-reset"
                    @click="resetGoodsData">
           重置
         </el-button>
       </div>
       <div class="undistributed-wrap-title-icon">
-        <i class="el-icon-refresh"
-           title="刷新"
-           @click.stop="resetGoodsData()"></i>
-        <i class="el-icon-plus" title="添加" @click.stop="showAddGoodsDialog = true"></i>
+        <el-button type="info" @click.stop="resetGoodsData()">刷新</el-button>
+        <el-button type="primary" @click.stop="showAddGoodsDialog = true">添加</el-button>
       </div>
     </div>
     <el-table
       :data="goodsData"
       ref="ScrollTable"
-      border
+      stripe
+      highlight-current-row
+      show-overflow-tooltip
       style="width: 100%">
       <el-table-column
         fixed
@@ -81,8 +80,8 @@
         label="状态"
         width="80">
         <template slot-scope="scope">
-          <el-tag type="success" v-if=" scope.row.status === 1 ">上架</el-tag>
-          <el-tag type="danger" v-else>下架</el-tag>
+          <el-tag type="primary" v-if=" scope.row.status === 1 ">上架</el-tag>
+          <el-tag type="info" v-else>下架</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -95,8 +94,21 @@
         label="操作"
         width="150">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click.stop="editGoodsInfo(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click.stop="deleteGoodsInfo(scope.row.id)">删除</el-button>
+          <el-button type="info" icon="el-icon-edit" circle @click.stop="editGoodsInfo(scope.row)"></el-button>
+<!--          <el-popconfirm-->
+<!--            confirm-button-text='确定'-->
+<!--            cancel-button-text='点错了'-->
+<!--            icon="el-icon-info"-->
+<!--            icon-color="red"-->
+<!--            title="你确定要删除商品吗？">-->
+            <el-button type="danger" icon="el-icon-delete" circle @click.stop="deleteGoodsInfo(scope.row.id)"></el-button>
+
+<!--            <el-button @click.stop="deleteGoodsInfo(scope.row.id)" type="danger" icon="el-icon-delete" circle></el-button>-->
+<!--          </el-popconfirm>-->
+<!--            <el-button type="danger" icon="el-icon-delete" circle @click.stop="deleteGoodsInfo(scope.row.id)"></el-button>-->
+        </template>
+        <template>
+
         </template>
       </el-table-column>
     </el-table>
@@ -131,7 +143,7 @@ export default {
     return {
       // 弹窗等待状态
       showAddGoodsDialog: false,
-
+      showDeleteGoodsDialog: false,
       //下拉状态筛选
       options: [{
         value: 1,
@@ -172,8 +184,6 @@ export default {
           if (res.code === 200) {
             this.goodsData = res.data.data
             this.total = res.data.total
-            this.limit = res.data.limit
-            this.page = res.data.page_count
           }
         })
         .catch((err) => {
@@ -234,17 +244,13 @@ export default {
           this.$message.error('删除失败')
         })
       }
+      this.showDeleteGoodsDialog = false
     }
   }
 }
 </script>
 
 <style lang="scss">
-.el-header {
-  background-color: #B3C0D1;
-  color: #333;
-  line-height: 40px;
-}
 
 .el-aside {
   color: #333;
@@ -293,13 +299,13 @@ export default {
   .four-reset {
     margin-left: 20px;
     &:hover, &:focus {
-      background: #0079C4;
+      background: #0178C6;
       border-color: #0079C4;
     }
   }
   .undistributed-wrap-title-icon {
     position: absolute;
-    right: 0px;
+    right: 30px;
     i {
       font-size: 21px;
       margin-right: 30px;

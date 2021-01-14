@@ -4,9 +4,9 @@
       <el-header>
         <div class="left">
           <img src="../../assets/logo.png" alt="" class="logo" />
-          <span>ERP管理系统</span>
+          <span>仓库管理系统</span>
         </div>
-        <el-button type="info" @click="signOut">退出</el-button>
+        <el-button type="text" style="color: #eeeeee" @click="signOut">退出</el-button>
       </el-header>
       <el-container>
         <el-aside width="200px">
@@ -15,7 +15,7 @@
               <el-menu :default-openeds="defaultOpeners">
                 <router-link to="/data">
                   <el-menu-item index="1" class="four-side-router-title">
-                    <i class="el-icon-s-home"></i>首页
+                    首页
                   </el-menu-item>
                 </router-link>
                 <el-submenu v-for="(item, index) in menuItems" :key="index" :index="item.id" class="four-side-router-title">
@@ -50,9 +50,21 @@
 
 #home{
   height: 100%;
+  .router-link {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+  a {
+    color: #333333;
+    text-decoration: none;
+    &:hover, &:focus {
+      color: #0178C6;
+    }
+  }
 }
 .el-header {
-  background-color: #373d41;
+  background-color: #0178C6;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -82,13 +94,11 @@
 .el-main {
   background-color: #E9EEF3;
   color: #333;
-  //text-align: center;
   line-height: 60px;
 }
 
 .el-container {
   height: 100%;
-  //margin-bottom: 40px;
 }
 
 .el-container:nth-child(5) .el-aside,

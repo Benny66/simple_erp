@@ -104,8 +104,7 @@ export default {
 .login-wrap {
   min-width: 1440px;
   height: 100%;
-  //background: #0178C6;
-  background: #373d41;
+  background: #0178C6;
   position: relative;
 
   .login-content-wrap {

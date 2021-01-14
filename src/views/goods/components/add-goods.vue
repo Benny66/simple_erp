@@ -39,8 +39,8 @@
             :active-value=1
             :inactive-value=0
             v-model="goodsForm.status"
-            active-color="#13ce66"
-            inactive-color="#ff4949">
+            active-color="#0178C6"
+            inactive-color="#909399">
           </el-switch>
         </el-form-item>
         <el-form-item class="single-cline-item" prop="stock">
