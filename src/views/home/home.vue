@@ -6,7 +6,19 @@
           <img src="../../assets/logo.png" alt="" class="logo" />
           <span>仓库管理系统</span>
         </div>
-        <el-button type="text" style="color: #eeeeee" @click="signOut">退出</el-button>
+        <div class="right">
+          <el-popover
+            placement="bottom"
+            width="120px"
+            trigger="click">
+            <el-row>
+              <span>用户名称：</span>
+              <span class="grid-content bg-purple">{{userInfo.username}}</span>
+            </el-row>
+            <el-button slot="reference" type="text" class="el-icon-user-solid" style="color: #eeeeee" @click="getUserInfo"></el-button>
+          </el-popover>
+          <el-button type="text" style="color: #eeeeee" @click="signOut">退出</el-button>
+        </div>
       </el-header>
       <el-container>
         <el-aside width="200px">
@@ -80,6 +92,19 @@
       width: 30px;
       height: 30px;
       margin-right: 20px;
+    }
+  }
+  .right {
+    height: 60px;
+    width: 100px;
+    .el-button--text {
+      font-size: 20px;
+      padding-right: 10px;
+    }
+    .el-icon-user-solid {
+      font-size: 24px;
+    }
+    .el-popover {
     }
   }
 }
@@ -156,8 +181,15 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      userInfo: {
+        id: 0,
+        username: '',
+      }
     }
+  },
+  created () {
+    this.getUserInfo()
   },
   methods: {
     signOut() {
@@ -166,6 +198,16 @@ export default {
           localStorage.removeItem('userToken')
           localStorage.removeItem('tokenExpireMonitor')
           this.$router.push('/login')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    getUserInfo() {
+      httpRequestServer('getUserInfo').then(res => {
+        if (res.code === 200) {
+          this.userInfo.id = res.data.id
+          this.userInfo.username = res.data.username
         } else {
           this.$message.error(res.msg)
         }

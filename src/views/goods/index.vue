@@ -1,5 +1,11 @@
 <template>
   <div id="Data">
+    <div>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/data' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>商品管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <div class="title-wrap">
       <div class="title-icon">
         <img src="../../assets/liebiao.png">
@@ -34,95 +40,89 @@
         <el-button type="primary" @click.stop="showAddGoodsDialog = true">添加</el-button>
       </div>
     </div>
-    <el-table
-      :data="goodsData"
-      ref="ScrollTable"
-      stripe
-      highlight-current-row
-      show-overflow-tooltip
-      style="width: 100%">
-      <el-table-column
-        fixed
-        prop="id"
-        label="序号"
-      width="50">
-      </el-table-column>
-      <el-table-column
-        fixed
-        prop="goods_no"
-        label="商品编号">
-      </el-table-column>
-      <el-table-column
-        prop="goods_url"
-        label="商品名称">
-        <template slot-scope="scope">
-          <el-link :href="scope.row.goods_url" type="primary">{{ scope.row.goods_name }}</el-link>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="goods_cover"
-        label="商品封面图"
-        width="100">
-        <template slot-scope="scope">
-          <el-image
-            :src="imageHost + scope.row.goods_cover"
-            fit="fill">
-          </el-image>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="stock"
-        label="库存"
-      width="80">
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        label="状态"
-        width="80">
-        <template slot-scope="scope">
-          <el-tag type="primary" v-if=" scope.row.status === 1 ">上架</el-tag>
-          <el-tag type="info" v-else>下架</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="create_time"
-        label="创建时间"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="150">
-        <template slot-scope="scope">
-          <el-button type="info" icon="el-icon-edit" circle @click.stop="editGoodsInfo(scope.row)"></el-button>
-<!--          <el-popconfirm-->
-<!--            confirm-button-text='确定'-->
-<!--            cancel-button-text='点错了'-->
-<!--            icon="el-icon-info"-->
-<!--            icon-color="red"-->
-<!--            title="你确定要删除商品吗？">-->
+    <div>
+      <el-table
+        :data="goodsData"
+        ref="ScrollTable"
+        stripe
+        highlight-current-row
+        show-overflow-tooltip
+        style="width: 100%">
+        <el-table-column
+          fixed
+          prop="id"
+          label="序号"
+          width="60">
+        </el-table-column>
+        <el-table-column
+          fixed
+          prop="goods_no"
+          label="商品编号">
+        </el-table-column>
+        <el-table-column
+          prop="goods_url"
+          label="商品名称">
+          <template slot-scope="scope">
+            <el-link :href="scope.row.goods_url" type="primary">{{ scope.row.goods_name }}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="goods_cover"
+          label="商品封面图"
+          width="100">
+          <template slot-scope="scope">
+            <el-image
+              :src="imageHost + scope.row.goods_cover"
+              fit="fill">
+            </el-image>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="stock"
+          label="库存"
+          width="80">
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          label="状态"
+          width="80">
+          <template slot-scope="scope">
+            <el-tag type="primary" v-if=" scope.row.status === 1 ">上架</el-tag>
+            <el-tag type="info" v-else>下架</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="create_time"
+          label="创建时间"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="150">
+          <template slot-scope="scope">
+            <el-button type="info" icon="el-icon-edit" circle @click.stop="editGoodsInfo(scope.row)"></el-button>
             <el-button type="danger" icon="el-icon-delete" circle @click.stop="deleteGoodsInfo(scope.row.id)"></el-button>
+          </template>
+          <template>
 
-<!--            <el-button @click.stop="deleteGoodsInfo(scope.row.id)" type="danger" icon="el-icon-delete" circle></el-button>-->
-<!--          </el-popconfirm>-->
-<!--            <el-button type="danger" icon="el-icon-delete" circle @click.stop="deleteGoodsInfo(scope.row.id)"></el-button>-->
-        </template>
-        <template>
-
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      v-if="goodsData.length > 0"
-      background
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="page"
-      :page-sizes="[5, 10, 30, 40, 50, 100, 200]"
-      :page-size="limit"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="page-wrap">
+      <el-pagination
+        v-if="goodsData.length > 0"
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[5, 10, 30, 40, 50, 100, 200]"
+        :page-size="limit"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
+    </div>
     <add-goods
       v-if="showAddGoodsDialog"
       :show.sync="showAddGoodsDialog"
@@ -145,13 +145,17 @@ export default {
       showAddGoodsDialog: false,
       showDeleteGoodsDialog: false,
       //下拉状态筛选
-      options: [{
-        value: 1,
-        label: '上架'
-      }, {
-        value: 0,
-        label: '下架'
-      }],
+      options: [
+        {
+          value: -1,
+          label: '全部'
+        },{
+          value: 1,
+          label: '上架'
+        }, {
+          value: 0,
+          label: '下架'
+        }],
       statusSelect: '全部',
 
       goodsData: [],
@@ -172,7 +176,7 @@ export default {
     handleClick (row) {
       // console.log(row)
     },
-    // 获取项目一页终端数据
+    // 获取项目一页商品数据
     getPageGoodsData () {
       httpRequestServer('getPageGoodsList', {
         page: this.page, // 页码-1页
@@ -202,7 +206,7 @@ export default {
       this.getPageGoodsData()
       this.$refs.ScrollTable.bodyWrapper.scrollTop = 0
     },
-    // 重置终端数据
+    // 重置商品数据
     resetGoodsData() {
       if (this.searchValue !== '') {
         this.searchValue = ''
@@ -214,16 +218,14 @@ export default {
         this.getPageGoodsData()
       }
     },
-    // 查询终端数据
+    // 查询商品数据
     queryGoodsData() {
       if (this.searchValue !== '') {
         this.page = 1
         this.getPageGoodsData()
       }
-      if (this.statusSelect !== -1) {
-        this.status = this.statusSelect
-        this.getPageGoodsData()
-      }
+      this.status = this.statusSelect
+      this.getPageGoodsData()
     },
     editGoodsInfo(row) {
       this.goodsRow = row
@@ -252,9 +254,6 @@ export default {
 
 <style lang="scss">
 
-.el-aside {
-  color: #333;
-}
 .title-wrap {
   display: flex;
   justify-content: flex-start;
@@ -314,7 +313,8 @@ export default {
     }
   }
 }
-.el-image {
-  width: 60px;
+
+.page-wrap {
+  padding-top: 10px;
 }
 </style>

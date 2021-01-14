@@ -34,14 +34,14 @@ const errorHandleMap = [
   [
     404,
     () => {
-      router.replace({ path: '/equipmentManage' })
+      router.replace({ path: '/login' })
       message('请求的资源不存在')
     }
   ],
   [
     500,
     () => {
-      router.replace({ path: '/equipmentManage' })
+      router.replace({ path: '/login' })
       message('服务器发生了错误')
     }
   ]

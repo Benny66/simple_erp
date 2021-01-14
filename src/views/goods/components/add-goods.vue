@@ -111,7 +111,7 @@ export default {
       disableUploadCover: false,
       disableUploadImages: false,
 
-      uploadImageUrl: this.$host + '/api/v1/upload',
+      uploadImageUrl: this.$host + '/api/v1/user/upload',
       goodsCoverList: [],
       goodsImagesList: [],
 
