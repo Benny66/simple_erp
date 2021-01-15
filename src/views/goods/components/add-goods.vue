@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="add-goods">
     <el-dialog
       :title="goodsRow ? '编辑商品' :'新增商品'"
       :visible.sync="visible"
@@ -268,39 +268,42 @@ export default {
 </script>
 
 <style lang="scss">
-.el-dialog {
-  width: 800px;
-}
+#add-goods {
+  .el-dialog {
+    width: 800px;
+  }
 
-.clear-float:after {
-  content: '';
-  height: 0;
-  line-height: 0;
-  display: block;
-  visibility: hidden;
-  clear: both;
-}
+  .clear-float:after {
+    content: '';
+    height: 0;
+    line-height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+  }
 
-.el-form-item {
-  float: left;
-  width: 50%;
-
-  .label {
+  .el-form-item {
     float: left;
-    width: 80px;
+    width: 50%;
+
+    .label {
+      float: left;
+      width: 80px;
+    }
+
+    .el-input {
+      width: 200px;
+    }
+
+    .el-upload-list {
+      max-height: 110px;
+      overflow-y: auto;
+    }
   }
 
-  .el-input {
-    width: 200px;
-  }
-
-  .el-upload-list {
-    max-height: 110px;
-    overflow-y: auto;
+  .single-cline-item {
+    width: 100%;
   }
 }
 
-.single-cline-item {
-  width: 100%;
-}
 </style>

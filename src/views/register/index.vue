@@ -5,7 +5,7 @@
         <p>注册页面</p>
       </div>
       <div class="register-content">
-        <el-form :model="registerForm" ref="registerForm" class="demo-ruleForm" @submit.native.prevent>
+        <el-form :model="registerForm" :rules="rules" ref="registerForm" class="demo-ruleForm" @submit.native.prevent>
           <el-form-item
             style="width: 320px; margin: auto;height: 48px;"
             prop="username">
@@ -84,6 +84,24 @@ export default {
       },
       isDisabledRegister: true,
       loading: false,
+      rules: {
+        username: [
+          { request: true, message: '请输入账号', trigger: 'blur'},
+          { min: 6, max: 32, message: '长度在 6 到 32 个字符', trigger: 'blur'}
+        ],
+        password: [
+          { request: true, message: '请输入密码', trigger: 'blur'},
+          { min: 6, max: 32, message: '长度在 6 到 32 个字符', trigger: 'blur'}
+        ],
+        confirmPassword: [
+          { request: true, validator: this.validatePass, trigger: 'blur'},
+        ],
+        passCode: [
+          { request: true, message: '请输入验证码', trigger: 'blur'},
+          { min: 0, max: 32, message: '长度在 0 到 32 个字符', trigger: 'blur'}
+
+        ]
+      }
     }
   },
   watch: {
@@ -121,6 +139,16 @@ export default {
           return false
         }
       })
+    },
+    validatePass(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('请输入确认密码'));
+      } else {
+        if (this.registerForm.password !== value) {
+          callback(new Error('两次密码不一致'));
+        }
+        callback();
+      }
     }
   }
 }
@@ -144,7 +172,7 @@ export default {
     border-radius: 30px;
 
     .el-form-item {
-      padding-top: 15px;
+      padding-top: 20px;
     }
 
     .register-content-title {

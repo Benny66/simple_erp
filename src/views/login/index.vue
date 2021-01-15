@@ -5,12 +5,15 @@
         <p>登录页面</p>
       </div>
       <div class="login-content">
-        <el-form :model="loginForm" ref="loginForm" class="demo-ruleForm" @submit.native.prevent>
+        <el-form :model="loginForm" :rules="rules" ref="loginForm" class="demo-ruleForm" @submit.native.prevent>
           <el-form-item
             style="width: 320px; margin: auto;height: 48px;"
             prop="username">
           <el-input
             placeholder="请输入账号"
+            maxlength="32"
+            clearable
+            show-word-limit
             v-model="loginForm.username">
             <i slot="prefix" class="el-icon-user"/>
           </el-input>
@@ -64,6 +67,12 @@ export default {
       },
       isDisabledLogin: true,
       loading: false,
+      rules: {
+        username: [
+          { request: true, message: '请输入账号', trigger: 'blur'},
+          { min: 6, max: 32, message: '长度在 6 到 32 个字符', trigger: 'blur'}
+        ]
+      }
     }
   },
   watch: {
@@ -126,7 +135,7 @@ export default {
     background: rgba(255, 255, 255, 1);
     border-radius: 30px;
     .el-form-item {
-      padding-top: 15px;
+      padding-top: 20px;
     }
     .login-content-title {
       padding-top: 39px;

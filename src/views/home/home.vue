@@ -79,73 +79,74 @@
       color: #0178C6;
     }
   }
-}
-.el-header {
-  background-color: #0178C6;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 30px;
-  color: #fff;
-  font-size: 20px;
-  > div {
+  .el-header {
+    background-color: #0178C6;
     display: flex;
     flex-direction: row;
     align-items: center;
-    .logo {
-      width: 30px;
-      height: 30px;
-      margin-right: 20px;
+    justify-content: space-between;
+    padding: 10px 30px;
+    color: #fff;
+    font-size: 20px;
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .logo {
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+      }
+    }
+    .right {
+      height: 60px;
+      width: 100px;
+      .el-button--text {
+        font-size: 20px;
+        padding-right: 10px;
+      }
+      .el-icon-user-solid {
+        font-size: 24px;
+      }
+      .el-popover {
+      }
     }
   }
-  .right {
-    height: 60px;
-    width: 100px;
-    .el-button--text {
-      font-size: 20px;
-      padding-right: 10px;
-    }
-    .el-icon-user-solid {
-      font-size: 24px;
-    }
-    .el-popover {
-    }
+
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    line-height: 60px;
+  }
+
+  .el-container {
+    height: 100%;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+  .el-footer {
+    background-color: #E9EEF3;
+    color: #999;
+    text-align: center;
+    line-height: 60px;
+
   }
 }
 
-.el-aside {
-  background-color: #D3DCE6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-}
-
-.el-main {
-  background-color: #E9EEF3;
-  color: #333;
-  line-height: 60px;
-}
-
-.el-container {
-  height: 100%;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
-}
-.el-footer {
-  background-color: #E9EEF3;
-  color: #999;
-  text-align: center;
-  line-height: 60px;
-
-}
 
 </style>
 
