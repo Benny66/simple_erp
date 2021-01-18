@@ -184,7 +184,8 @@ export default {
       status: -1,
       // 单个商品数据
       returnGoodsRow: null,
-      imageHost: this.$imagesHost
+      imageHost: this.$host
+
     }
   },
   created () {

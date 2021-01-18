@@ -17,6 +17,10 @@ const requestObj = {
     url: '/auth/user/refresh',
     method: 'post'
   },
+  getConfig: {
+    url: '/v1/config/get',
+    method: 'get'
+  },
   getUserInfo: {
     url: '/v1/user/get',
     method: 'get'

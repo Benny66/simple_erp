@@ -57,6 +57,7 @@
           <el-upload
             class="upload-demo"
             :action="uploadImageUrl"
+            :headers="uploadHeaders"
             :on-preview="handleCoverPreview"
             :on-remove="handleCoverRemove"
             :on-success="handleCoverSuccess"
@@ -73,6 +74,7 @@
           <el-upload
             class="upload-demo"
             :action="uploadImageUrl"
+            :headers="uploadHeaders"
             :on-preview="handleImagesPreview"
             :on-remove="handleImagesRemove"
             :on-success="handleImagesSuccess"
@@ -94,9 +96,7 @@
 </template>
 
 <script>
-import {
-  httpRequestServer
-} from '@/api/equipmentManage.js'
+import { httpRequestServer } from '@/api/equipmentManage.js'
 
 export default {
   props: {
@@ -111,7 +111,9 @@ export default {
       disableUploadCover: false,
       disableUploadImages: false,
 
-      uploadImageUrl: this.$host + '/api/v1/user/upload',
+      uploadImageUrl: this.$host + '/api/v1/user/uploads',
+      uploadHeaders: {},
+
       goodsCoverList: [],
       goodsImagesList: [],
 
@@ -139,6 +141,7 @@ export default {
     }
   },
   created () {
+    this.uploadHeaders['token'] = localStorage.getItem('userToken')
     if (this.goodsRow) {
       this.goodsForm.id = this.goodsRow.id
       this.goodsForm.goods_no = this.goodsRow.goods_no
@@ -151,7 +154,7 @@ export default {
       this.goodsCoverList = [
         {
           name: this.goodsRow.goods_name,
-          url: this.$imagesHost + this.goodsRow.goods_cover
+          url: this.$host + this.goodsRow.goods_cover
         }
       ]
       this.disableUploadCover = this.goodsRow.goods_cover !== ''
@@ -160,7 +163,7 @@ export default {
         for (let i = 0; i < goods_images_arr.length; i++) {
           this.goodsImagesList.push({
             name: this.goodsRow.goods_name + '-' + i,
-            url: this.$imagesHost + goods_images_arr[i]
+            url: this.$host + goods_images_arr[i]
           })
         }
       }

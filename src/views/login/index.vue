@@ -57,6 +57,7 @@ import {
   httpRequestServer
 } from '@/api/equipmentManage.js'
 import md5 from 'md5'
+import Vue from 'vue'
 
 export default {
   data() {
@@ -98,6 +99,8 @@ export default {
               let tokenExpireMonitor = (new Date()).getTime() + (3600 * 1000)
               localStorage.setItem('tokenExpireMonitor', tokenExpireMonitor.toString())
               localStorage.setItem('userToken', res.data.token.toString())
+              Vue.prototype.$host = 'http://' + res.data.ip_address
+              localStorage.setItem('ip_address', res.data.token.toString())
               this.$router.push('/data')
             } else {
               this.$message.error(res.msg)

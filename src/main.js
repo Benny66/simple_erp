@@ -5,12 +5,10 @@ import store from './store'
 import './plugins/element.js'
 Vue.config.productionTip = false
 
-import api from "./api/interface"
 import './regex/regex.function.js'
 import {Notification} from 'element-ui'
 
-Vue.prototype.$host = api.host
-Vue.prototype.$imagesHost = api.imagesHostUrl
+Vue.prototype.$host = ''
 
 function isRefreshToken() {
   let time = Number.parseInt(localStorage.getItem('tokenExpireMonitor'))

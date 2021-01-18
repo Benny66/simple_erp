@@ -166,7 +166,7 @@ export default {
       status: -1,
       // 单个商品数据
       goodsRow: null,
-      imageHost: this.$imagesHost
+      imageHost: this.$host
     }
   },
   created () {
