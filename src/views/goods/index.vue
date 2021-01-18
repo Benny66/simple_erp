@@ -102,7 +102,7 @@
           width="150">
           <template slot-scope="scope">
             <el-button type="info" icon="el-icon-edit" circle @click.stop="editGoodsInfo(scope.row)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle @click.stop="deleteGoodsInfo(scope.row.id)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="deleteGoodsInfo(scope.row.id)"></el-button>
           </template>
           <template>
 
@@ -233,18 +233,30 @@ export default {
     },
     deleteGoodsInfo(id) {
       if (id !== 0) {
-        httpRequestServer('deleteGoods',  {
-          id: id
-        }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除成功')
-            this.getPageGoodsData()
-          } else {
-            this.$message.error(res.msg)
-          }
-        }).catch(res => {
-          this.$message.error('删除失败')
-        })
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          httpRequestServer('deleteGoods',  {
+            id: id
+          }).then(res => {
+            if (res.code === 200) {
+              this.$message.success('删除成功')
+              this.getPageGoodsData()
+            } else {
+              this.$message.error(res.msg)
+            }
+          }).catch(res => {
+            this.$message.error('删除失败')
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
       }
       this.showDeleteGoodsDialog = false
     }
