@@ -63,6 +63,11 @@ const requestObj = {
   deleteReturnGoods: {
     url: '/v1/return_goods/delete',
     method: 'delete'
+  },
+
+  getTreeCategory: {
+    url: '/v1/category/tree',
+    method: 'get'
   }
 }
 

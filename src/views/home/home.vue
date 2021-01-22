@@ -184,6 +184,11 @@ export default {
               id: '3-1',
               name: '商品管理',
               path: '/goods'
+            },
+            {
+              id: '3-2',
+              name: '商品分类',
+              path: '/category'
             }
           ]
         }

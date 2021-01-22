@@ -3,9 +3,10 @@ import VueRouter from 'vue-router'
 import Home from '../views/home/home.vue'
 import Data from '../views/home/data.vue'
 import Goods from '../views/goods'
-import Login from '../views/login/index.vue'
-import Register from '../views/register/index.vue'
+import Login from '../views/login'
+import Register from '../views/register'
 import ReturnGoods from '../views/retuen_goods'
+import Category from '../views/category'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ const routes = [
         path: '/return_goods',
         name: 'ReturnGoods',
         component: ReturnGoods
+      },
+      {
+        path: '/category',
+        name: 'Category',
+        component: Category
       }
     ]
   }

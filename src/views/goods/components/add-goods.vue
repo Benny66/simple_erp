@@ -43,7 +43,7 @@
             inactive-color="#909399">
           </el-switch>
         </el-form-item>
-        <el-form-item class="single-cline-item" prop="stock">
+        <el-form-item prop="stock">
           <label>库存(个)：</label>
           <el-input
             v-model="goodsForm.stock"
@@ -51,6 +51,16 @@
             clearable
             show-word-limit
           ></el-input>
+        </el-form-item>
+        <el-form-item prop="category_id">
+          <label>分类：</label>
+          <el-cascader
+            :props="treeProps"
+            :options="categoryData"
+            :show-all-levels="false"
+            :value="goodsForm.category_id"
+            @change="handleCategoryChange"
+          ></el-cascader>
         </el-form-item>
         <el-form-item>
           <label>商品封面图：</label>
@@ -113,12 +123,13 @@ export default {
 
       uploadImageUrl: this.$host + '/api/v1/user/uploads',
       uploadHeaders: {},
-
+      categoryData: [],
       goodsCoverList: [],
       goodsImagesList: [],
 
       goodsForm: {
         id: 0,
+        category_id: 0,
         goods_no: '',
         goods_name: '',
         goods_url: '',
@@ -129,9 +140,27 @@ export default {
       },
       visible: this.show,
       rules: {
-        goods_no: [{required: false, validator: null, trigger: 'blur'}],
-        goods_name: [{required: true, validator: this.validateName, trigger: 'blur'}],
-        goods_url: [{required: false, validator: null, trigger: 'blur'}],
+        goods_no: [{
+          required: false,
+          validator: null,
+          trigger: 'blur'
+        }],
+        goods_name: [{
+          required: true,
+          validator: this.validateName,
+          trigger: 'blur'
+        }],
+        goods_url: [{
+          required: false,
+          validator: null,
+          trigger: 'blur'
+        }],
+      },
+      treeProps: {
+        checkStrictly: true,
+        value: 'id',
+        children: 'child',
+        label: 'name'
       }
     }
   },
@@ -143,12 +172,14 @@ export default {
   created () {
     this.uploadHeaders['token'] = localStorage.getItem('userToken')
     if (this.goodsRow) {
+      console.log(this.goodsRow)
       this.goodsForm.id = this.goodsRow.id
+      this.goodsForm.category_id = this.goodsRow.category_id
       this.goodsForm.goods_no = this.goodsRow.goods_no
       this.goodsForm.goods_name = this.goodsRow.goods_name
       this.goodsForm.goods_url = this.goodsRow.goods_url
       this.goodsForm.goods_cover = this.goodsRow.goods_cover
-      this.goodsForm.goods_images= this.goodsRow.goods_images
+      this.goodsForm.goods_images = this.goodsRow.goods_images
       this.goodsForm.stock = this.goodsRow.stock
       this.goodsForm.status = this.goodsRow.status
       this.goodsCoverList = [
@@ -167,14 +198,16 @@ export default {
           })
         }
       }
+      console.log(this.goodsCoverList)
     }
+    this.getTreeCategory()
   },
   methods: {
     save () {
       this.$refs.goodsForm.validate(valid => {
         if (valid) {
           if (this.goodsRow) {
-            httpRequestServer('reqUpdateGoods',  { ...this.goodsForm }).then(res => {
+            httpRequestServer('reqUpdateGoods', { ...this.goodsForm }).then(res => {
               if (res.code === 200) {
                 this.$message.success('修改成功')
                 this.close()
@@ -208,19 +241,21 @@ export default {
       this.$emit('update:goodsRow', null)
     },
     // 名称效验
-    validateName(rule, value, callback) {
-      this.goodsForm.goods_name = value = value.replace(/\s+/g,"")
+    validateName (rule, value, callback) {
+      this.goodsForm.goods_name = value = value.replace(/\s+/g, '')
 
-      if (!isEmpty(value))
+      if (!isEmpty(value)) {
         return callback(new Error('请输入1～50位非空字符'))
+      }
 
-      if (!validateName(value))
+      if (!validateName(value)) {
         return callback(new Error('该名称不符合规则'))
+      }
 
       callback()
     },
     // 清除输入框触发focus事件
-    clearInFocus(row) {
+    clearInFocus (row) {
       this.$refs[row].focus()
     },
     handleCoverRemove () {
@@ -243,11 +278,11 @@ export default {
           this.splice(index, 1)
         }
       }
-      data.remove(file_name);
+      data.remove(file_name)
       if (data.length < 3) {
         this.disableUploadImages = false
       }
-      this.goodsForm.goods_images = data.join(",")
+      this.goodsForm.goods_images = data.join(',')
     },
     handleImagesPreview (file) {
       // console.log(file);
@@ -265,6 +300,22 @@ export default {
     },
     handleOverImages () {
       console.log('文件数量超出限制')
+    },
+    handleCategoryChange (value) {
+      this.goodsForm.category_id = value[value.length-1]
+    },
+    getTreeCategory () {
+      httpRequestServer('getTreeCategory', {
+        search: this.searchCategory
+      })
+        .then((res) => {
+          if (res.code === 200) {
+            this.categoryData = res.data
+          }
+        })
+        .catch((err) => {
+          this.$message.error(err.message, '请求失败')
+        })
     }
   }
 }
