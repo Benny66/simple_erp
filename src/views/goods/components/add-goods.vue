@@ -172,7 +172,6 @@ export default {
   created () {
     this.uploadHeaders['token'] = localStorage.getItem('userToken')
     if (this.goodsRow) {
-      console.log(this.goodsRow)
       this.goodsForm.id = this.goodsRow.id
       this.goodsForm.category_id = this.goodsRow.category_id
       this.goodsForm.goods_no = this.goodsRow.goods_no
@@ -198,7 +197,6 @@ export default {
           })
         }
       }
-      console.log(this.goodsCoverList)
     }
     this.getTreeCategory()
   },

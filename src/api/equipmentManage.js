@@ -68,7 +68,27 @@ const requestObj = {
   getTreeCategory: {
     url: '/v1/category/tree',
     method: 'get'
-  }
+  },
+  getPageCategory: {
+    url: '/v1/category/page',
+    method: 'get'
+  },
+  deleteCategory: {
+    url: '/v1/category/delete',
+    method: 'delete'
+  },
+  addCategory: {
+    url: '/v1/category/create',
+    method: 'post'
+  },
+  updateCategory: {
+    url: '/v1/category/update',
+    method: 'put'
+  },
+  getCategory: {
+    url: '/v1/category/get',
+    method: 'get'
+  },
 }
 
 export const httpRequestServer = (name, requestParams) => {
