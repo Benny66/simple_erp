@@ -53,7 +53,6 @@ export default {
   },
   data () {
     return {
-
       categoryData: [],
       isTopCategory: false,
       categoryForm: {
@@ -79,32 +78,43 @@ export default {
     }
   },
   created () {
-    if (this.categoryRow.handle !== 'add') {
-      this.getPCategory(this.categoryRow.pid)
-      if (this.categoryRow.pid === 0) {
-        this.isTopCategory = true
+    if (this.categoryRow) {
+      if (this.categoryRow.handle !== 'add') {
+        this.getPCategory(this.categoryRow.pid)
+        if (this.categoryRow.pid === 0) {
+          this.isTopCategory = true
+        }
+        this.categoryForm.id = this.categoryRow.id
+        this.categoryForm.pid = this.categoryRow.pid
+        this.categoryForm.name = this.categoryRow.name
+        this.categoryForm.type = this.categoryRow.type
+      } else {
+        this.isTopCategory = false
+        this.categoryForm.id = this.categoryRow.id
+        this.categoryForm.pid = this.categoryRow.pid
+        this.categoryForm.f_name = this.categoryRow.name
+        this.categoryForm.type = this.categoryRow.type
       }
-      this.categoryForm.id = this.categoryRow.id
-      this.categoryForm.pid = this.categoryRow.pid
-      this.categoryForm.name = this.categoryRow.name
-      this.categoryForm.type = this.categoryRow.type
     } else {
-      this.isTopCategory = false
-      this.categoryForm.pid = this.categoryRow.id
-      this.categoryForm.f_name = this.categoryRow.name
-      this.categoryForm.type = this.categoryRow.type
+      this.isTopCategory = true
     }
+    console.log(this.categoryRow)
   },
   methods: {
     save () {
       this.$refs.categoryForm.validate(valid => {
         if (valid) {
-          if (this.categoryRow) {
-            httpRequestServer('updateCategory', { ...this.categoryForm }).then(res => {
+          if (this.categoryRow && this.categoryRow.handle === 'edit') {
+            httpRequestServer('updateCategory', {
+              id: this.categoryForm.id,
+              pid: this.categoryForm.pid,
+              name: this.categoryForm.name,
+              type: this.categoryForm.type,
+            }).then(res => {
               if (res.code === 200) {
                 this.$message.success('修改成功')
                 this.close()
-                this.$parent.getPageCategory()
+                this.$parent.refreshCategory()
               } else {
                 this.$message.error(res.msg)
               }
@@ -120,13 +130,14 @@ export default {
               if (res.code === 200) {
                 this.$message.success('创建成功')
                 this.close()
-                this.$parent.getPageCategory()
+                this.$parent.refreshCategory()
               } else {
                 this.$message.error(res.msg)
               }
             }).catch(res => {
               this.$message.error(res.msg + '创建失败')
             })
+
           }
         } else {
           return false
@@ -155,7 +166,7 @@ export default {
     clearInFocus (row) {
       this.$refs[row].focus()
     },
-    getPCategory(id) {
+    getPCategory (id) {
       if (id !== 0) {
         httpRequestServer('getCategory', {
           id: id

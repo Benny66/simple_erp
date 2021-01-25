@@ -19,14 +19,6 @@
           @keyup.enter.native="queryCategoryData"
         >
         </el-input>
-        <!--        <el-select v-model="statusSelect" placeholder="请选择" class="select-wrap" @change="getTreeCategory">-->
-        <!--          <el-option-->
-        <!--            v-for="item in options"-->
-        <!--            :key="item.value"-->
-        <!--            :label="item.label"-->
-        <!--            :value="item.value">-->
-        <!--          </el-option>-->
-        <!--        </el-select>-->
         <el-button type="info"
                    class="four-reset"
                    @click="refreshCategory">
@@ -34,67 +26,18 @@
         </el-button>
       </div>
       <div class="undistributed-wrap-title-icon">
+        <el-button type="primary" @click.stop="showAddCategoryDialog = true">添加</el-button>
         <el-button type="info" @click.stop="refreshCategory()">刷新</el-button>
       </div>
     </div>
-    <div class="category-warp">
-      <el-table
-        :data="categoryData"
-        ref="ScrollTable"
-        stripe
-        highlight-current-row
-        show-overflow-tooltip
-        style="width: 100%">
-        <el-table-column
-          fixed
-          prop="id"
-          label="序号"
-          width="60">
-        </el-table-column>
-        <el-table-column
-          fixed
-          prop="name"
-          label="分类名称">
-          <template slot-scope="scope">
-            <i class="el-icon-minus" v-if="scope.row.pid !== 0"></i>
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="create_time"
-          label="创建时间"
-          width="200">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="200">
-          <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-plus" circle @click.stop="addCategoryInfo(scope.row)"></el-button>
-            <el-button type="info" icon="el-icon-edit" circle @click.stop="editCategoryInfo(scope.row)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle
-                       @click="deleteCategoryInfo(scope.row.id)"></el-button>
-          </template>
-          <template>
-
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="page-wrap">
-        <el-pagination
-          v-if="categoryData.length > 0"
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 30, 40, 50, 100, 200]"
-          :page-size="limit"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
-        </el-pagination>
-
-      </div>
-    </div>
+    <tree-table
+      :data="categoryData"
+      :columns="columns"
+      :handleFunc="handleFunc"
+      @addCategory="addCategoryInfo"
+      @editCategory="editCategoryInfo"
+      @deleteCategory="deleteCategoryInfo"
+    ></tree-table>
     <add-category
       v-if="showAddCategoryDialog"
       :show.sync="showAddCategoryDialog"
@@ -106,12 +49,40 @@
 <script>
 import { httpRequestServer } from '@/api/equipmentManage'
 import AddCategory from '@/views/category/components/add-category'
+import TreeTable from '@/components/tree-table'
 
 export default {
   name: 'index',
-  components: { AddCategory },
+  components: {
+    AddCategory,
+    TreeTable
+  },
   data () {
     return {
+      columns: [
+        {
+          text: '分类名称',
+          value: 'name',
+          width: 200
+        },
+        {
+          text: '序号',
+          value: 'id'
+        },
+        {
+          text: '创建时间',
+          value: 'create_time'
+        },
+        {
+          text: '更新时间',
+          value: 'update_time'
+        }
+      ],
+      handleFunc: {
+        add: 'addCategory',
+        edit: 'editCategory',
+        delete: 'deleteCategory'
+      },
       categoryData: [],
       total: 0,
       limit: 10,
@@ -124,55 +95,39 @@ export default {
       },
       categoryRow: null,
       searchCategory: '',
-      showAddCategoryDialog: false
+      showAddCategoryDialog: false,
+      showDeleteCategoryDialog: false,
+
     }
   },
   created () {
-    this.getPageCategory()
+    this.getTreeCategory()
   },
   methods: {
-    getPageCategory () {
-      httpRequestServer('getPageCategory', {
+    getTreeCategory () {
+      httpRequestServer('getTreeCategory', {
         search: this.searchCategory
       })
-        .then((res) => {
-          if (res.code === 200) {
-            this.categoryData = res.data.data
-            this.total = res.data.total
-          }
-        })
-        .catch((err) => {
-          this.$message.error(err.message, '请求失败')
-        })
+      .then((res) => {
+        if (res.code === 200) {
+          this.categoryData = res.data
+        }
+      })
+      .catch((err) => {
+        this.$message.error(err.message, '请求失败')
+      })
     },
     // 查询分类数据
     queryCategoryData (params) {
-      if (this.searchCategory !== '') {
-        this.page = 1
-      }
-      this.getPageCategory()
+      this.getTreeCategory()
     },
     // 重置分类数据
     refreshCategory () {
       if (this.searchCategory !== '') {
         this.searchCategory = ''
       }
-      this.page = 1
-      this.getPageCategory()
+      this.getTreeCategory()
     },
-    //分页
-    handleSizeChange (size) {
-      this.limit = size
-      this.page = 1
-      this.getPageGoodsData()
-      this.$refs.ScrollTable.bodyWrapper.scrollTop = 0
-    },
-    handleCurrentChange (currentPage) {
-      this.page = currentPage
-      this.getPageGoodsData()
-      this.$refs.ScrollTable.bodyWrapper.scrollTop = 0
-    },
-
     editCategoryInfo (row) {
       this.categoryRow = row
       this.categoryRow.handle = 'edit'
@@ -195,7 +150,7 @@ export default {
           }).then(res => {
             if (res.code === 200) {
               this.$message.success('删除成功')
-              this.getPageCategory()
+              this.refreshCategory()
             } else {
               this.$message.error(res.msg)
             }
