@@ -2,8 +2,7 @@
   <div id="Data">
     <div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/data' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>商品管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/data' }">仓库系统</el-breadcrumb-item>
         <el-breadcrumb-item>商品管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

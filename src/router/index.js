@@ -6,6 +6,7 @@ import Goods from '../views/goods'
 import Login from '../views/login'
 import Register from '../views/register'
 import ReturnGoods from '../views/retuen_goods'
+import ExpressInquiry from '../views/retuen_goods/express-inquiry'
 import Category from '../views/category'
 
 Vue.use(VueRouter)
@@ -42,6 +43,11 @@ const routes = [
         path: '/return_goods',
         name: 'ReturnGoods',
         component: ReturnGoods
+      },
+      {
+        path: '/express_inquiry',
+        name: 'ExpressInquiry',
+        component: ExpressInquiry
       },
       {
         path: '/category',

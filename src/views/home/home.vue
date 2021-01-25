@@ -172,6 +172,11 @@ export default {
               id: '2-1',
               name: '退货管理',
               path: '/return_goods'
+            },
+            {
+              id: '2-2',
+              name: '快递查询',
+              path: '/express_inquiry'
             }
           ]
         },
