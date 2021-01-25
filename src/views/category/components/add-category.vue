@@ -1,7 +1,7 @@
 <template>
   <div id="add-category">
     <el-dialog
-      :title="categoryRow ? '编辑商品' :'新增商品'"
+      :title="categoryRow ? (categoryRow.handle === 'edit' ? '编辑分类' : '新增下级分类') :'新增顶级分类'"
       :visible.sync="visible"
       :close-on-click-modal="false"
       class="default-dialog"

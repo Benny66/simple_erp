@@ -3,8 +3,8 @@
     <div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/data' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>商品管理</el-breadcrumb-item>
         <el-breadcrumb-item>分类管理</el-breadcrumb-item>
-        <el-breadcrumb-item>分类分类</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="title-wrap">
@@ -26,7 +26,7 @@
         </el-button>
       </div>
       <div class="undistributed-wrap-title-icon">
-        <el-button type="primary" @click.stop="showAddCategoryDialog = true">添加</el-button>
+        <el-button type="primary" @click.stop="showAddCategoryDialog = true">添加顶级分类</el-button>
         <el-button type="info" @click.stop="refreshCategory()">刷新</el-button>
       </div>
     </div>
@@ -63,7 +63,7 @@ export default {
         {
           text: '分类名称',
           value: 'name',
-          width: 200
+          width: 300
         },
         {
           text: '序号',
