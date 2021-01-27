@@ -26,8 +26,9 @@
         </el-button>
       </div>
       <div class="undistributed-wrap-title-icon">
-        <el-button type="primary" @click.stop="showAddCategoryDialog = true">添加顶级分类</el-button>
         <el-button type="info" @click.stop="refreshCategory()">刷新</el-button>
+        <el-button type="primary" @click.stop="showAddCategoryDialog = true">添加顶级分类</el-button>
+
       </div>
     </div>
     <tree-table
